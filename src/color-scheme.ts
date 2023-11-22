@@ -21,7 +21,7 @@ export function subscribeToSchemeChange(
 	const schemaMatch = window.matchMedia('(prefers-color-scheme: dark)')
 	function handleThemeChange() {
 		const value = schemaMatch.matches ? 'dark' : 'light'
-		document.cookie = `${cookieName}=${value}`
+		document.cookie = `${cookieName}=${value}; Max-Age=31536000; Path=/`
 		subscriber(value)
 	}
 	schemaMatch.addEventListener('change', handleThemeChange)
