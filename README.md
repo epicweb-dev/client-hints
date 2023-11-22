@@ -147,6 +147,12 @@ export async function loader({ request }: DataFunctionArgs) {
 }
 ```
 
+Hints include:
+
+- `@epic-web/client-hints/color-scheme`
+- `@epic-web/client-hints/time-zone`
+- `@epic-web/client-hints/reduced-motion`
+
 ## Custom Hints
 
 If you have anything custom you'd like to detect, hints are actually pretty
