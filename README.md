@@ -153,6 +153,21 @@ Hints include:
 - `@epic-web/client-hints/time-zone`
 - `@epic-web/client-hints/reduced-motion`
 
+## FAQ
+
+### Customize cookie name
+
+If you wish to customize the cookie name, you can simply override it like so:
+
+```tsx
+const hintsUtils = getHintUtils({
+	theme: {
+		...colorSchemeHint,
+		cookieName: 'my-custom-cookie-name',
+	},
+})
+```
+
 ## Custom Hints
 
 If you have anything custom you'd like to detect, hints are actually pretty
