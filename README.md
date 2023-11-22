@@ -82,6 +82,11 @@ triggering a content layout shift or a flash of incorrect content. After that
 first render, the client will have the correct cookies and the server will
 render the right thing every time thereafter.
 
+[Watch the tip](https://www.epicweb.dev/tips/use-client-hints-to-eliminate-content-layout-shift)
+on [EpicWeb.dev](https://www.epicweb.dev):
+
+[![Kent smiling with VSCode showing code in the client-hints.tsx file](https://github-production-user-asset-6210df.s3.amazonaws.com/1500684/242997340-ede18d0a-c117-4c65-9f1e-a87f262e4ce1.jpg)](https://www.epicweb.dev/tips/use-client-hints-to-eliminate-content-layout-shift)
+
 ## Usage
 
 This is how `@epic-web/client-hints` is used in the Epic Stack:
