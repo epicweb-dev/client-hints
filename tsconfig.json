@@ -1,0 +1,19 @@
+{
+  "include": ["./src/**/*.ts"],
+  "compilerOptions": {
+    "rootDir": "./src",
+    "lib": ["ESNext", "DOM"],
+    "module": "ES2022",
+    "target": "ES2022",
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "composite": true,
+    "strict": true,
+    "downlevelIteration": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "dist",
+    "declarationDir": "dist"
+  }
+}
