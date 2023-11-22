@@ -9,13 +9,19 @@ export const clientHint = {
 	},
 } as const satisfies ClientHint<'dark' | 'light'>
 
+/**
+ * Subscribe to changes in the user's color scheme preference. Optionally pass
+ * in a cookie name to use for the cookie that will be set if different from the
+ * default.
+ */
 export function subscribeToSchemeChange(
 	subscriber: (value: 'dark' | 'light') => void,
+	cookieName = clientHint.cookieName,
 ) {
 	const schemaMatch = window.matchMedia('(prefers-color-scheme: dark)')
 	function handleThemeChange() {
 		const value = schemaMatch.matches ? 'dark' : 'light'
-		document.cookie = `${clientHint.cookieName}=${value}`
+		document.cookie = `${cookieName}=${value}`
 		subscriber(value)
 	}
 	schemaMatch.addEventListener('change', handleThemeChange)

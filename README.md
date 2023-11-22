@@ -149,9 +149,10 @@ export async function loader({ request }: DataFunctionArgs) {
 
 Hints include:
 
-- `@epic-web/client-hints/color-scheme`
+- `@epic-web/client-hints/color-scheme` (also exports `subscribeToSchemeChange`)
 - `@epic-web/client-hints/time-zone`
-- `@epic-web/client-hints/reduced-motion`
+- `@epic-web/client-hints/reduced-motion` (also exports
+  `subscribeToMotionChange`)
 
 ## FAQ
 
