@@ -16,7 +16,7 @@ export const clientHint = {
  */
 export function subscribeToSchemeChange(
 	subscriber: (value: 'dark' | 'light') => void,
-	cookieName = clientHint.cookieName,
+	cookieName: string = clientHint.cookieName,
 ) {
 	const schemaMatch = window.matchMedia('(prefers-color-scheme: dark)')
 	function handleThemeChange() {

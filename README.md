@@ -169,6 +169,9 @@ const hintsUtils = getHintUtils({
 })
 ```
 
+If you're using one of the `subscribeTo*Change` functions, you'll need to pass
+your custom cookie name to those as well.
+
 ## Custom Hints
 
 If you have anything custom you'd like to detect, hints are actually pretty

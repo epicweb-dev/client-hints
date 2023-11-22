@@ -16,7 +16,7 @@ export const clientHint = {
  */
 export function subscribeToMotionChange(
 	subscriber: (value: 'reduce' | 'no-preference') => void,
-	cookieName = clientHint.cookieName,
+	cookieName: string = clientHint.cookieName,
 ) {
 	const motionMatch = window.matchMedia('(prefers-reduced-motion: reduce)')
 	function handleThemeChange() {
