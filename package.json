@@ -25,9 +25,13 @@
       "types": "./dist/color-scheme.d.ts",
       "default": "./dist/color-scheme.js"
     },
-    "./time-zome": {
+    "./time-zone": {
       "types": "./dist/time-zone.d.ts",
       "default": "./dist/time-zone.js"
+    },
+    "./reduced-motion": {
+      "types": "./dist/reduced-motion.d.ts",
+      "default": "./dist/reduced-motion.js"
     }
   },
   "files": [
