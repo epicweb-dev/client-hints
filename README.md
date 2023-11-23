@@ -60,7 +60,7 @@ Client hints are a way to avoid this problem. The
 [standard](https://wicg.github.io/user-preference-media-features-headers/#usage-example)
 for this are still a work in progress and there is uncertainty when they will
 land in all major browsers we are concerned with supporting. So this is a
-"ponyfill" of sorts of a similar feature to the client hints headers proposed to
+"polyfill" of sorts of a similar feature to the client hints headers proposed to
 the standard.
 
 The idea behind the standard is when the browser makes a request, instead of
