@@ -25,7 +25,7 @@ export function subscribeToMotionChange(
 		subscriber(value)
 	}
 	motionMatch.addEventListener('change', handleMotionChange)
-	return function cleanupSchemaChange() {
+	return function cleanupMotionChange() {
 		motionMatch.removeEventListener('change', handleMotionChange)
 	}
 }
