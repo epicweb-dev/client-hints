@@ -19,13 +19,13 @@ export function subscribeToMotionChange(
 	cookieName: string = clientHint.cookieName,
 ) {
 	const motionMatch = window.matchMedia('(prefers-reduced-motion: reduce)')
-	function handleThemeChange() {
+	function handleMotionChange() {
 		const value = motionMatch.matches ? 'reduce' : 'no-preference'
 		document.cookie = `${cookieName}=${value}; Max-Age=31536000; Path=/`
 		subscriber(value)
 	}
-	motionMatch.addEventListener('change', handleThemeChange)
-	return function cleanupSchemaChange() {
-		motionMatch.removeEventListener('change', handleThemeChange)
+	motionMatch.addEventListener('change', handleMotionChange)
+	return function cleanupMotionChange() {
+		motionMatch.removeEventListener('change', handleMotionChange)
 	}
 }
