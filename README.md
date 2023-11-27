@@ -36,7 +36,7 @@ npm install @epic-web/client-hints
 
 ## The Problem
 
-Sometimes your server render code needs to know something about the client that
+Sometimes your server rendered code needs to know something about the client that
 the browser doesn't send. For example, the server might need to know the user's
 preferred language, or whether the user prefers light or dark mode.
 
@@ -58,7 +58,7 @@ happens for this reason.
 
 Client hints are a way to avoid this problem. The
 [standard](https://wicg.github.io/user-preference-media-features-headers/#usage-example)
-for this are still a work in progress and there is uncertainty when they will
+for this is still a work in progress and there is uncertainty when they will
 land in all major browsers we are concerned with supporting. So this is a
 "ponyfill" of sorts of a similar feature to the client hints headers proposed to
 the standard.
