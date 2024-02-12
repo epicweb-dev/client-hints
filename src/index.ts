@@ -60,14 +60,14 @@ const hints = [
 ${Object.values(hints)
 	.map((hint) => {
 		const cookieName = JSON.stringify(hint.cookieName)
-		return `{ name: ${cookieName}, actual: String(${hint.getValueCode}), cookie: cookies[${cookieName}] }`
+		return `{ name: ${cookieName}, actual: String(${hint.getValueCode}), value: cookies[${cookieName}] ?? encodeURIComponent("${hint.fallback}") }`
 	})
 	.join(',\n')}
 ];
 for (const hint of hints) {
-	if (decodeURIComponent(hint.cookie) !== hint.actual) {
+	document.cookie = encodeURIComponent(hint.name) + '=' + encodeURIComponent(hint.actual) + '; Max-Age=31536000; path=/';
+	if (decodeURIComponent(hint.value) !== hint.actual) {
 		cookieChanged = true;
-		document.cookie = encodeURIComponent(hint.name) + '=' + encodeURIComponent(hint.actual) + '; Max-Age=31536000; path=/';
 	}
 }
 // if the cookie changed, reload the page, unless the browser doesn't support
