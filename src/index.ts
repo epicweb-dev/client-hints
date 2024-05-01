@@ -60,7 +60,7 @@ const hints = [
 ${Object.values(hints)
 	.map((hint) => {
 		const cookieName = JSON.stringify(hint.cookieName)
-		return `{ name: ${cookieName}, actual: String(${hint.getValueCode}), value: cookies[${cookieName}] ?? encodeURIComponent("${hint.fallback}") }`
+		return `{ name: ${cookieName}, actual: String(${hint.getValueCode}), value: cookies[${cookieName}] ? cookies[${cookieName}] : encodeURIComponent("${hint.fallback}") }`
 	})
 	.join(',\n')}
 ];
