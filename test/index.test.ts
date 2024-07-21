@@ -1,9 +1,25 @@
 import { test } from 'node:test'
-import { getHintUtils } from '../src'
+import { ClientHint, getHintUtils } from '../src'
 import { clientHint as colorSchemeHint } from '../src/color-scheme'
 import { clientHint as timeZoneHint } from '../src/time-zone'
 import { clientHint as reducedMotionHint } from '../src/reduced-motion'
 import assert from 'node:assert'
+
+type CustomHintT = {
+	label: string;
+	value: number;
+}
+
+const customTypeHint: ClientHint<CustomHintT> = {
+	cookieName: 'CH-customHint',
+	getValueCode: '1',
+	fallback: {label: 'two', value: 2},
+	transform(e: string) {
+		return JSON.parse(e) as CustomHintT
+	}
+}
+
+const cookieString = 'CH-prefers-color-scheme=dark; CH-customHint={"label": "one", "value": 1}; CH-reduced-motion=reduce; CH-time-zone=America%2FDenver'
 
 test('client script works', () => {
 	const hints = getHintUtils({
@@ -28,21 +44,24 @@ test('client script works', () => {
 test('fallbacks work', () => {
 	const hints = getHintUtils({
 		colorScheme: colorSchemeHint,
-		timeZone: timeZoneHint,
+		customHint: customTypeHint,
 		reducedMotion: reducedMotionHint,
+		timeZone: timeZoneHint,
 	})
 
 	// fallbacks work
 	assert.deepStrictEqual(hints.getHints(), {
 		colorScheme: colorSchemeHint.fallback,
-		timeZone: timeZoneHint.fallback,
+		customHint: customTypeHint.fallback,
 		reducedMotion: reducedMotionHint.fallback,
+		timeZone: timeZoneHint.fallback,
 	})
 })
 
 test('getting values from request cookie works', () => {
 	const hints = getHintUtils({
 		colorScheme: colorSchemeHint,
+		customHint: customTypeHint,
 		timeZone: timeZoneHint,
 		reducedMotion: reducedMotionHint,
 	})
@@ -50,12 +69,12 @@ test('getting values from request cookie works', () => {
 	// getting from request works
 	const request = new Request('https://example.com', {
 		headers: {
-			Cookie:
-				'CH-prefers-color-scheme=dark; CH-time-zone=America%2FDenver; CH-reduced-motion=reduce',
+			Cookie: cookieString,
 		},
 	})
 	assert.deepStrictEqual(hints.getHints(request), {
 		colorScheme: 'dark',
+		customHint: {label: 'one', value: 1},
 		timeZone: 'America/Denver',
 		reducedMotion: 'reduce',
 	})
@@ -64,20 +83,21 @@ test('getting values from request cookie works', () => {
 test('getting values from document', () => {
 	const hints = getHintUtils({
 		colorScheme: colorSchemeHint,
-		timeZone: timeZoneHint,
+		customHint: customTypeHint,
 		reducedMotion: reducedMotionHint,
+		timeZone: timeZoneHint,
 	})
 
 	// @ts-expect-error poor-man's mock
 	global.document = {
-		cookie:
-			'CH-prefers-color-scheme=dark; CH-time-zone=Lima%2FPeru; CH-reduced-motion=reduce',
+		cookie: cookieString,
 	}
 	try {
 		assert.deepStrictEqual(hints.getHints(), {
 			colorScheme: 'dark',
-			timeZone: 'Lima/Peru',
+			customHint: {label: 'one', value: 1},
 			reducedMotion: 'reduce',
+			timeZone: 'America/Denver',
 		})
 	} finally {
 		// @ts-expect-error poor-man's mock
