@@ -1,10 +1,11 @@
-import { ClientHint, ClientHintsValue } from './utils'
+export type ClientHint<Value> = {
+	cookieName: string
+	getValueCode: string
+	fallback: Value
+	transform?: (value: string) => Value
+}
 
-export type { ClientHint }
-
-export function getHintUtils<Hints extends Record<string, ClientHint<any>>>(
-	hints: Hints,
-) {
+export function getHintUtils(hints: Record<string, ClientHint<unknown>>) {
 	function getCookieValue(cookieString: string, name: string) {
 		const hint = hints[name]
 		if (!hint) {
@@ -21,7 +22,7 @@ export function getHintUtils<Hints extends Record<string, ClientHint<any>>>(
 		return value ? decodeURIComponent(value) : null
 	}
 
-	function getHints(request?: Request): ClientHintsValue<Hints> {
+	function getHints(request?: Request): Record<string, unknown> {
 		const cookieString =
 			typeof document !== 'undefined'
 				? document.cookie
@@ -29,19 +30,20 @@ export function getHintUtils<Hints extends Record<string, ClientHint<any>>>(
 				  ? request.headers.get('Cookie') ?? ''
 				  : ''
 
-		return Object.entries(hints).reduce((acc, [name, hint]) => {
-			const hintName = name
-			if ('transform' in hint) {
-				// @ts-expect-error - this is fine (PRs welcome though)
-				acc[hintName] = hint.transform(
-					getCookieValue(cookieString, hintName) ?? hint.fallback,
-				)
-			} else {
-				// @ts-expect-error - this is fine (PRs welcome though)
-				acc[hintName] = getCookieValue(cookieString, hintName) ?? hint.fallback
-			}
-			return acc
-		}, {} as ClientHintsValue<Hints>)
+		return Object.entries(hints).reduce(
+			(acc, [name, hint]) => {
+				const hintName = name
+				if (hint.transform) {
+					const cValue = getCookieValue(cookieString, hintName)
+					acc[hintName] = cValue ? hint.transform(cValue) : hint.fallback
+				} else {
+					acc[hintName] =
+						getCookieValue(cookieString, hintName) ?? hint.fallback
+				}
+				return acc
+			},
+			{} as Record<string, unknown>,
+		)
 	}
 
 	/**

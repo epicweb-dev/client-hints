@@ -40,8 +40,8 @@
   "scripts": {
     "build": "tsc",
     "format": "prettier --write .",
-    "test": "tsx --test --test-reporter spec --experimental-test-coverage test/*.test.ts",
-    "test:watch": "tsx --test --test-reporter spec --watch test/*.test.ts"
+    "test": "tsx --test --test-reporter spec --experimental-test-coverage test/index.test.ts",
+    "test:watch": "tsx --test --test-reporter spec --watch test/index.test.ts"
   },
   "devDependencies": {
     "@types/node": "^20.9.4",
