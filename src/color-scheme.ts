@@ -1,4 +1,4 @@
-import { type ClientHint } from './utils'
+import { type ClientHint } from './utils.js'
 
 export const clientHint = {
 	cookieName: 'CH-prefers-color-scheme',

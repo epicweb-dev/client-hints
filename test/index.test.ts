@@ -1,8 +1,8 @@
 import { test } from 'node:test'
-import { getHintUtils } from '../src'
-import { clientHint as colorSchemeHint } from '../src/color-scheme'
-import { clientHint as timeZoneHint } from '../src/time-zone'
-import { clientHint as reducedMotionHint } from '../src/reduced-motion'
+import { getHintUtils } from '../src/index.js'
+import { clientHint as colorSchemeHint } from '../src/color-scheme.js'
+import { clientHint as timeZoneHint } from '../src/time-zone.js'
+import { clientHint as reducedMotionHint } from '../src/reduced-motion.js'
 import assert from 'node:assert'
 
 test('client script works', () => {

@@ -36,9 +36,9 @@ npm install @epic-web/client-hints
 
 ## The Problem
 
-Sometimes your server rendered code needs to know something about the client that
-the browser doesn't send. For example, the server might need to know the user's
-preferred language, or whether the user prefers light or dark mode.
+Sometimes your server rendered code needs to know something about the client
+that the browser doesn't send. For example, the server might need to know the
+user's preferred language, or whether the user prefers light or dark mode.
 
 For some of this you should have user preferences which can be persisted in a
 cookie or a database, but you can't do this for first-time visitors. All you can

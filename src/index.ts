@@ -1,4 +1,4 @@
-import { ClientHint, ClientHintsValue } from './utils'
+import { ClientHint, ClientHintsValue } from './utils.js'
 
 export type { ClientHint }
 
