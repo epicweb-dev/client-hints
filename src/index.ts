@@ -1,6 +1,6 @@
 import { ClientHint, ClientHintsValue } from './utils.js'
 
-export type { ClientHint }
+export type { ClientHint, ClientHintsValue }
 
 export function getHintUtils<Hints extends Record<string, ClientHint<any>>>(
 	hints: Hints,
