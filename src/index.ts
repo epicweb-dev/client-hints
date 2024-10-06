@@ -57,7 +57,7 @@ function checkClientHints() {
 	if (!navigator.cookieEnabled) return;
 
 	// set a short-lived cookie to make sure we can set cookies
-	document.cookie = "canSetCookies=1; Max-Age=60; SameSite=Lax";
+	document.cookie = "canSetCookies=1; Max-Age=60; SameSite=Lax; path=/";
 	const canSetCookies = document.cookie.includes("canSetCookies=1");
 	document.cookie = "canSetCookies=; Max-Age=-1; path=/";
 	if (!canSetCookies) return;
