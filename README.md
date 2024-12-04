@@ -98,7 +98,7 @@ import {
 	subscribeToSchemeChange,
 } from '@epic-web/client-hints/color-scheme'
 import { clientHint as timeZoneHint } from '@epic-web/client-hints/time-zone'
-import { useRevalidator } from '@remix-run/react'
+import { useRevalidator } from 'react-router'
 import * as React from 'react'
 import { useRequestInfo } from './request-info.ts'
 
@@ -138,12 +138,12 @@ And then the server-side code in the root loader (what powers the
 
 ```tsx
 export async function loader({ request }: DataFunctionArgs) {
-	return json({
+	return {
 		// other stuff here...
 		requestInfo: {
 			hints: getHints(request),
 		},
-	})
+	}
 }
 ```
 
