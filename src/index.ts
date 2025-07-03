@@ -83,7 +83,18 @@ function checkClientHints() {
 			cookieChanged = true;
 		}
 	}
-	if (cookieChanged) window.location.reload();
+	if (cookieChanged) {
+		// Stop all resource loading and DOM processing to prevent FOUC
+		if (window.stop) window.stop();
+		
+		// Hide the page content immediately to prevent visual flicker
+		const style = document.createElement('style');
+		style.textContent = 'html { visibility: hidden !important; }';
+		document.head.appendChild(style);
+		
+		// Trigger the reload
+		window.location.reload();
+	}
 }
 
 checkClientHints();
