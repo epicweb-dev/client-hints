@@ -78,7 +78,7 @@ function checkClientHints() {
 		.join(',\n')}
 	];
 	for (const hint of hints) {
-		document.cookie = encodeURIComponent(hint.name) + '=' + encodeURIComponent(hint.actual) + '; Max-Age=31536000; path=/';
+		document.cookie = encodeURIComponent(hint.name) + '=' + encodeURIComponent(hint.actual) + '; Max-Age=31536000; SameSite=Lax; path=/';
 		if (decodeURIComponent(hint.value) !== hint.actual) {
 			cookieChanged = true;
 		}

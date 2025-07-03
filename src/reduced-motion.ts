@@ -21,7 +21,7 @@ export function subscribeToMotionChange(
 	const motionMatch = window.matchMedia('(prefers-reduced-motion: reduce)')
 	function handleMotionChange() {
 		const value = motionMatch.matches ? 'reduce' : 'no-preference'
-		document.cookie = `${cookieName}=${value}; Max-Age=31536000; Path=/`
+		document.cookie = `${cookieName}=${value}; Max-Age=31536000; SameSite=Lax; Path=/`
 		subscriber(value)
 	}
 	motionMatch.addEventListener('change', handleMotionChange)
