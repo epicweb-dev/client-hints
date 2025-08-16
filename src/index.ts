@@ -18,7 +18,19 @@ export function getHintUtils<Hints extends Record<string, ClientHint<any>>>(
 			.find((c: string) => c.startsWith(hint.cookieName + '='))
 			?.split('=')[1]
 
-		return value ? decodeURIComponent(value) : null
+		if (!value) return null
+
+		try {
+			return decodeURIComponent(value)
+		} catch (error) {
+			// Handle malformed URI gracefully by falling back to null
+			// This prevents crashes and allows the hint's fallback value to be used
+			console.warn(
+				`Failed to decode cookie value for ${hint.cookieName}:`,
+				error,
+			)
+			return null
+		}
 	}
 
 	function getHints(request?: Request): ClientHintsValue<Hints> {
@@ -77,13 +89,34 @@ function checkClientHints() {
 		})
 		.join(',\n')}
 	];
+	
+	// Add safety check to prevent infinite refresh scenarios
+	let reloadAttempts = parseInt(sessionStorage.getItem('clientHintReloadAttempts') || '0');
+	if (reloadAttempts > 3) {
+		console.warn('Too many client hint reload attempts, skipping reload to prevent infinite loop');
+		return;
+	}
+	
 	for (const hint of hints) {
 		document.cookie = encodeURIComponent(hint.name) + '=' + encodeURIComponent(hint.actual) + '; Max-Age=31536000; SameSite=Lax; path=/';
-		if (decodeURIComponent(hint.value) !== hint.actual) {
+		
+		try {
+			const decodedValue = decodeURIComponent(hint.value);
+			if (decodedValue !== hint.actual) {
+				cookieChanged = true;
+			}
+		} catch (error) {
+			// Handle malformed URI gracefully
+			console.warn('Failed to decode cookie value during client hint check:', error);
+			// If we can't decode the value, assume it's different to be safe
 			cookieChanged = true;
 		}
 	}
+	
 	if (cookieChanged) {
+		// Increment reload attempts counter
+		sessionStorage.setItem('clientHintReloadAttempts', String(reloadAttempts + 1));
+		
 		// Hide the page content immediately to prevent visual flicker
 		const style = document.createElement('style');
 		style.textContent = 'html { visibility: hidden !important; }';
@@ -91,6 +124,9 @@ function checkClientHints() {
 
 		// Trigger the reload
 		window.location.reload();
+	} else {
+		// Reset reload attempts counter if no reload was needed
+		sessionStorage.removeItem('clientHintReloadAttempts');
 	}
 }
 
