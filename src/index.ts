@@ -26,7 +26,8 @@ export function getHintUtils<Hints extends Record<string, ClientHint<any>>>(
 			// Handle malformed URI gracefully by falling back to null
 			// This prevents crashes and allows the hint's fallback value to be used
 			console.warn(
-				`Failed to decode cookie value for ${hint.cookieName}: ${error}`,
+				`Failed to decode cookie value for ${hint.cookieName}:`,
+				error,
 			)
 			return null
 		}
