@@ -116,7 +116,12 @@ function checkClientHints() {
 	if (cookieChanged) {
 		// Increment reload attempts counter
 		sessionStorage.setItem('clientHintReloadAttempts', String(reloadAttempts + 1));
-		
+
+		// Preserve document.referrer before reload so analytics tools can access it
+		if (document.referrer) {
+			sessionStorage.setItem('clientHintReferrer', document.referrer);
+		}
+
 		// Hide the page content immediately to prevent visual flicker
 		const style = document.createElement('style');
 		style.textContent = 'html { visibility: hidden !important; }';
@@ -127,6 +132,16 @@ function checkClientHints() {
 	} else {
 		// Reset reload attempts counter if no reload was needed
 		sessionStorage.removeItem('clientHintReloadAttempts');
+
+		// Restore document.referrer if it was preserved from a client-hint reload
+		const savedReferrer = sessionStorage.getItem('clientHintReferrer');
+		if (savedReferrer) {
+			sessionStorage.removeItem('clientHintReferrer');
+			Object.defineProperty(document, 'referrer', {
+				value: savedReferrer,
+				configurable: true,
+			});
+		}
 	}
 }
 

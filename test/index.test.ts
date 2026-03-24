@@ -191,3 +191,39 @@ test('client script includes infinite refresh prevention', () => {
 	assert.ok(checkScript.includes('catch'))
 	assert.ok(checkScript.includes('decodeURIComponent'))
 })
+
+test('client script preserves document.referrer across reloads', () => {
+	const hints = getHintUtils({
+		colorScheme: colorSchemeHint,
+		timeZone: timeZoneHint,
+		reducedMotion: reducedMotionHint,
+	})
+
+	const checkScript = hints.getClientHintCheckScript()
+
+	// Should save document.referrer to sessionStorage before reload
+	assert.ok(
+		checkScript.includes('clientHintReferrer'),
+		'script should use clientHintReferrer sessionStorage key',
+	)
+	assert.ok(
+		checkScript.includes("sessionStorage.setItem('clientHintReferrer'"),
+		'script should save referrer to sessionStorage before reload',
+	)
+	assert.ok(
+		checkScript.includes("sessionStorage.getItem('clientHintReferrer')"),
+		'script should read saved referrer from sessionStorage after reload',
+	)
+
+	// Should restore document.referrer via Object.defineProperty
+	assert.ok(
+		checkScript.includes("Object.defineProperty(document, 'referrer'"),
+		'script should restore document.referrer via Object.defineProperty',
+	)
+
+	// Should clean up sessionStorage after restoring
+	assert.ok(
+		checkScript.includes("sessionStorage.removeItem('clientHintReferrer')"),
+		'script should remove saved referrer from sessionStorage after restoring',
+	)
+})
